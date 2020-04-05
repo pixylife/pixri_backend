@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"../../config"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
+	"pixri_backend/config"
 )
 
 type JwtCustomClaims struct {

@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"../model"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"pixri_backend/pkg/model"
 	"strings"
 	"time"
 )

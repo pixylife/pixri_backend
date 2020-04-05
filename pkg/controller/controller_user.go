@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"../model"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"pixri_backend/pkg/model"
 	"strconv"
 )
 
