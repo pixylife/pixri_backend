@@ -1,16 +1,16 @@
 package main
 
 import (
-
-	"./pkg/model"
-	"./pkg/controller"
-	"./config"
 	"github.com/jinzhu/gorm"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"pixri_backend/config"
+	"pixri_backend/pkg/controller"
+	"pixri_backend/pkg/model"
 )
 type Property struct {
 	Dburl string
@@ -35,14 +35,10 @@ func main(){
 	e.Use(middleware.CORS())
 
 	r := e.Group("/")
-	jwtConfig := middleware.JWTConfig{
-		Claims:     &controller.JwtCustomClaims{},
-		SigningKey: []byte("secret"),
-	}
-	r.Use(middleware.JWTWithConfig(jwtConfig))
-
 	controller.BaseController(env)
-	controller.LoginController(e, "/api")
-	controller.AccountController(r, "api")
 	controller.UserController(r, "api")
+	controller.ApplicationController(r, "api")
+
+	e.Logger.Fatal(e.Start(":1235"))
+
 }
