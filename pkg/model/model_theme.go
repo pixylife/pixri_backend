@@ -3,6 +3,7 @@ package model
 import "github.com/jinzhu/gorm"
 
 type Theme struct {
+	Model
 	PrimaryColor     string `json:"primary_color"`
 	SecondaryColor   string `json:"secondary_color"`
 	PrimaryDarkColor string `json:"primary_dark_color"`

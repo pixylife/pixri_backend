@@ -1,1 +1,5 @@
-dburl: db
+db: pixri
+user: root
+password: sahan
+url: 127.0.0.1
+port: 3307

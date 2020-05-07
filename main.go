@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -13,14 +14,18 @@ import (
 	"pixri_backend/pkg/model"
 )
 type Property struct {
-	Dburl string
+	Db string
+	User string
+	Password string
+	Url string
+	Port string
 }
 
 func main(){
 	content, _ := ioutil.ReadFile("properties.yml")
 	p := Property{}
 	err := yaml.Unmarshal([]byte(content), &p)
-	db, err := gorm.Open("sqlite3", p.Dburl)
+	db, err := gorm.Open("mysql", p.User+":"+p.Password+"@tcp("+p.Url+":"+p.Port+")/"+p.Db+"?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		log.Panic(err)
 	}

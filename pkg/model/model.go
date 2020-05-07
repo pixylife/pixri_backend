@@ -13,5 +13,7 @@ type Model struct {
 }
 
 func InitModels(db *gorm.DB) {
-	db.AutoMigrate(&User{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&User{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Application{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Theme{})
 }
