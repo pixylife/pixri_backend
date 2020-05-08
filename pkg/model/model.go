@@ -16,4 +16,7 @@ func InitModels(db *gorm.DB) {
 	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&User{})
 	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Application{})
 	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Theme{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Entity{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Field{})
+
 }

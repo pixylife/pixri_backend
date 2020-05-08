@@ -43,6 +43,9 @@ func main(){
 	controller.BaseController(env)
 	controller.UserController(r, "api")
 	controller.ApplicationController(r, "api")
+	controller.ThemeController(r, "api")
+	controller.EntityController(r, "api")
+	controller.FieldController(r, "api")
 
 	e.Logger.Fatal(e.Start(":1235"))
 
