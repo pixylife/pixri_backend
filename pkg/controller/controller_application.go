@@ -43,6 +43,16 @@ func FindAllApplication(c echo.Context) error {
 	application := model.FindAllApplication(db)
 	return c.JSON(http.StatusOK, application)
 }
+
+func GetAppDataCount(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	application := model.FindApplication(db, id)
+	themeCount := model.GetThemeCount(db,application.ID)
+	 appData := model.ApplicationData{ID: application.ID, ThemeCount: themeCount}
+	return c.JSON(http.StatusOK, appData)
+}
+
+
 func ApplicationController(g *echo.Group, contextRoot string) {
 
 	g.POST(contextRoot+"/applications", CreateApplication)
@@ -50,5 +60,7 @@ func ApplicationController(g *echo.Group, contextRoot string) {
 	g.DELETE(contextRoot+"/applications/:id", DeleteApplication)
 	g.GET(contextRoot+"/applications/:id", FindApplication)
 	g.GET(contextRoot+"/applications", FindAllApplication)
+	g.GET(contextRoot+"/applications/info/:id", GetAppDataCount)
+
 }
 

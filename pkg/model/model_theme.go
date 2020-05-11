@@ -11,7 +11,7 @@ type Theme struct {
 	TextColorBody string `json:"text_color_body"`
 	TextColorAppBar string `json:"text_color_appBar"`
 	Application   Application `gorm:"foreignkey:application_id" json:"application"`
-	ApplicationID int
+	ApplicationID int `json:"application_id"`
 }
 
 func dbpreloadTheme(db *gorm.DB) *gorm.DB {
@@ -38,6 +38,13 @@ func FindAllTheme(db *gorm.DB) []*Theme {
 	var theme []*Theme
 	dbpreloadTheme(db).Find(&theme)
 	return theme
+}
+
+func GetThemeCount(db *gorm.DB, application_id int) int{
+	var theme []*Theme
+	var count int
+	db.Where("application_id = ?", application_id).Find(&theme).Count(&count)
+	return count
 }
 
 func FindAllThemeForApplication(db *gorm.DB, application_id int) []*Theme {

@@ -19,6 +19,14 @@ type AgeGroup struct {
 	Max int `json:"max"`
 }
 
+type ApplicationData struct {
+	ID        int `json:"id"`
+	ThemeCount int `json:"theme_count"`
+	EntityCount int `json:"entity_count"`
+	PageCount int `json:"page_count"`
+
+}
+
 func dbpreloadApplication(db *gorm.DB) *gorm.DB {
 	return db.Preload("Application")
 }

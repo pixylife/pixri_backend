@@ -14,6 +14,8 @@ func CreateTheme(c echo.Context) error {
 		return error
 	}
 	model.AddTheme(db, &theme)
+	app := model.FindApplication(db,theme.ApplicationID)
+	theme.Application = *app
 	return c.JSON(http.StatusOK, theme)
 }
 func UpdateTheme(c echo.Context) error {
@@ -33,14 +35,18 @@ func DeleteTheme(c echo.Context) error {
 	return c.JSON(http.StatusOK, theme)
 }
 func FindTheme(c echo.Context) error {
-
 	id, _ := strconv.Atoi(c.Param("id"))
 	theme := model.FindTheme(db, id)
 	return c.JSON(http.StatusOK, theme)
 }
 func FindAllTheme(c echo.Context) error {
-
 	theme := model.FindAllTheme(db)
+	return c.JSON(http.StatusOK, theme)
+}
+
+func FindApplicationThemes(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	theme := model.FindAllThemeForApplication(db,id)
 	return c.JSON(http.StatusOK, theme)
 }
 func ThemeController(g *echo.Group, contextRoot string) {
@@ -50,4 +56,6 @@ func ThemeController(g *echo.Group, contextRoot string) {
 	g.DELETE(contextRoot+"/themes/:id", DeleteTheme)
 	g.GET(contextRoot+"/themes/:id", FindTheme)
 	g.GET(contextRoot+"/themes", FindAllTheme)
+	g.GET(contextRoot+"/themes/app/:id", FindApplicationThemes)
+
 }

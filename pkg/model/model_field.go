@@ -8,7 +8,7 @@ type Field struct {
 	Type string `gorm:"not null" json:"type"`
 	UIName string `gorm:"not null" json:"ui_name"`
 	Entity   Entity `gorm:"foreignkey:entity_id" json:"entity"`
-	EntityID int
+	EntityID int   `json:"entity_id"`
 }
 
 
@@ -37,3 +37,18 @@ func FindAllField(db *gorm.DB) []*Field {
 	dbpreloadField(db).Find(&field)
 	return field
 }
+
+func GetFieldCount(db *gorm.DB, entity_id int) int{
+	var field []*Field
+	var count int
+	db.Where("entity_id = ?", entity_id).Find(&field).Count(&count)
+	return count
+}
+
+func FindAllFieldsByEntity(db *gorm.DB,entity_id int) []*Field {
+	var field []*Field
+	db.Where("entity_id = ?", entity_id).Find(&field)
+	return field
+}
+
+

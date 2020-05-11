@@ -43,6 +43,22 @@ func FindAllEntity(c echo.Context) error {
 	entity := model.FindAllEntity(db)
 	return c.JSON(http.StatusOK, entity)
 }
+
+func FindAllEntityByApplication(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	entity := model.FindAllEntityByApplication(db,id)
+	return c.JSON(http.StatusOK, entity)
+}
+
+func GetEntityDataCount(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	entity := model.FindEntity(db, id)
+	fieldCount := model.GetFieldCount(db,entity.ID)
+	entityData := model.EntityData{ID: entity.ID, FieldCount: fieldCount}
+	return c.JSON(http.StatusOK, entityData)
+}
+
+
 func EntityController(g *echo.Group, contextRoot string) {
 
 	g.POST(contextRoot+"/entitys", CreateEntity)
@@ -50,4 +66,8 @@ func EntityController(g *echo.Group, contextRoot string) {
 	g.DELETE(contextRoot+"/entitys/:id", DeleteEntity)
 	g.GET(contextRoot+"/entitys/:id", FindEntity)
 	g.GET(contextRoot+"/entitys", FindAllEntity)
+	g.GET(contextRoot+"/entitys/application/:id", FindAllEntityByApplication)
+	g.GET(contextRoot+"/entitys/info/:id", GetEntityDataCount)
+
+
 }
