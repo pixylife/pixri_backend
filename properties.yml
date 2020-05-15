@@ -1,5 +1,5 @@
 db: pixri
 user: root
-password: sahan
+password:
 url: 127.0.0.1
 port: 3306
