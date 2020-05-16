@@ -7,7 +7,7 @@ type Field struct {
 	Name string `gorm:"not null" json:"name"`
 	Type string `gorm:"not null" json:"type"`
 	UIName string `gorm:"not null" json:"ui_name"`
-	Entity   Entity `gorm:"foreignkey:entity_id" json:"entity"`
+	Entity   Entity `gorm:"foreignkey:entity_id" json:"-"`
 	EntityID int   `json:"entity_id"`
 }
 

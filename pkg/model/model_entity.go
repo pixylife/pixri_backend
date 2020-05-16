@@ -6,7 +6,7 @@ type Entity struct {
 	Model
 	Name          string      `gorm:"not null" json:"name"`
 	Description   string      ` json:"description"`
-	Application   Application `gorm:"foreignkey:application_id" json:"application"`
+	Application   Application `gorm:"foreignkey:application_id" json:"-"`
 	ApplicationID int         `json:"application_id"`
 }
 

@@ -60,17 +60,7 @@ func GenerateTheme(application model.Application) []model.Theme{
 	client := resty.New()
 	resp,_ := client.R().
 		SetHeader("Content-Type", "application/json").
-		SetBody("{\n        \"id\": 1,\n    " +
-			"    \"CreatedAt\": \"2020-05-08T21:10:47+05:30\",\n    " +
-			"    \"UpdatedAt\": \"2020-05-08T21:10:47+05:30\",\n      " +
-			"  \"DeletedAt\": null,\n       " +
-			" \"name\": \"Kinrgize\",\n       " +
-			" \"type\": \"Health & Fitness\",\n  " +
-			"      \"description\": \"Happy life\",\n     " +
-			"   \"age-group\": {\n            \"min\": 0,\n            \"max\": 0\n        },\n       " +
-			" \"purpose\": \"Kinrgize was developed to help people lead healthier lives using their smartphones.\",\n   " +
-			"     \"baseURL\": \"127.0.0.1\",\n    " +
-			"    \"company\": \"kinrgize\"\n    }").
+		SetBody(application).
 		Post(baseUrl)
 
 

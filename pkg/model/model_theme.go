@@ -10,7 +10,7 @@ type Theme struct {
 	BodyColor string `json:"body_color"`
 	TextColorBody string `json:"text_color_body"`
 	TextColorAppBar string `json:"text_color_appBar"`
-	Application   Application `gorm:"foreignkey:application_id" json:"application"`
+	Application   Application `gorm:"foreignkey:application_id"  json:"-"`
 	ApplicationID int `json:"application_id"`
 }
 
