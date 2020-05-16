@@ -14,6 +14,11 @@ func CreateApplication(c echo.Context) error {
 		return error
 	}
 	model.AddApplication(db, &application)
+	themes := GenerateTheme(application)
+	model.DeleteAllThemesByApplication(db,application.ID)
+	for _,theme := range themes {
+		model.AddTheme(db, &theme)
+	}
 	return c.JSON(http.StatusOK, application)
 }
 func UpdateApplication(c echo.Context) error {
@@ -23,6 +28,11 @@ func UpdateApplication(c echo.Context) error {
 		return error
 	}
 	model.UpdateApplication(db, &application)
+	themes := GenerateTheme(application)
+	model.DeleteAllThemesByApplication(db,application.ID)
+	for _,theme := range themes {
+		model.AddTheme(db, &theme)
+	}	
 	return c.JSON(http.StatusOK, application)
 }
 func DeleteApplication(c echo.Context) error {
@@ -30,6 +40,7 @@ func DeleteApplication(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	application := model.FindApplication(db, id)
 	model.DeleteApplication(db, application)
+	model.DeleteAllThemesByApplication(db,application.ID)
 	return c.JSON(http.StatusOK, application)
 }
 func FindApplication(c echo.Context) error {

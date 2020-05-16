@@ -1,11 +1,17 @@
 package controller
 
 import (
+	"encoding/json"
+	"fmt"
+	"github.com/go-resty/resty/v2"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"pixri_backend/pkg/model"
 	"strconv"
 )
+
+const baseUrl = "http://localhost:5002/api/themes/generate"
+
 
 func CreateTheme(c echo.Context) error {
 
@@ -49,6 +55,40 @@ func FindApplicationThemes(c echo.Context) error {
 	theme := model.FindAllThemeForApplication(db,id)
 	return c.JSON(http.StatusOK, theme)
 }
+
+func GenerateTheme(application model.Application) []model.Theme{
+	client := resty.New()
+	resp,_ := client.R().
+		SetHeader("Content-Type", "application/json").
+		SetBody("{\n        \"id\": 1,\n    " +
+			"    \"CreatedAt\": \"2020-05-08T21:10:47+05:30\",\n    " +
+			"    \"UpdatedAt\": \"2020-05-08T21:10:47+05:30\",\n      " +
+			"  \"DeletedAt\": null,\n       " +
+			" \"name\": \"Kinrgize\",\n       " +
+			" \"type\": \"Health & Fitness\",\n  " +
+			"      \"description\": \"Happy life\",\n     " +
+			"   \"age-group\": {\n            \"min\": 0,\n            \"max\": 0\n        },\n       " +
+			" \"purpose\": \"Kinrgize was developed to help people lead healthier lives using their smartphones.\",\n   " +
+			"     \"baseURL\": \"127.0.0.1\",\n    " +
+			"    \"company\": \"kinrgize\"\n    }").
+		Post(baseUrl)
+
+
+	if resp.StatusCode() == 200 {
+		var data []model.Theme
+		_ = json.Unmarshal([]byte(resp.String()), &data)
+
+		fmt.Println(data)
+		return data
+	} else {
+		return []model.Theme{}
+	}
+}
+
+
+
+
+
 func ThemeController(g *echo.Group, contextRoot string) {
 
 	g.POST(contextRoot+"/themes", CreateTheme)

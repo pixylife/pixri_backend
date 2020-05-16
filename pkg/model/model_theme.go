@@ -52,3 +52,9 @@ func FindAllThemeForApplication(db *gorm.DB, application_id int) []*Theme {
 	dbpreloadTheme(db).Where("application_id = ?", application_id).Find(&theme)
 	return theme
 }
+
+func DeleteAllThemesByApplication(db *gorm.DB,application_id int) []*Theme {
+	var entity []*Theme
+	db.Where("application_id = ?", application_id).Delete(&entity)
+	return entity
+}
