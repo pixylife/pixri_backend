@@ -13,6 +13,7 @@ func CreateApplication(c echo.Context) error {
 	if error := c.Bind(&application); error != nil {
 		return error
 	}
+	application.ThemeID = 0
 	model.AddApplication(db, &application)
 	themes := GenerateTheme(application)
 	model.DeleteAllThemesByApplication(db,application.ID)
@@ -27,6 +28,7 @@ func UpdateApplication(c echo.Context) error {
 	if error := c.Bind(&application); error != nil {
 		return error
 	}
+	application.ThemeID = 0
 	model.UpdateApplication(db, &application)
 	themes := GenerateTheme(application)
 	model.DeleteAllThemesByApplication(db,application.ID)
@@ -63,6 +65,15 @@ func GetAppDataCount(c echo.Context) error {
 	return c.JSON(http.StatusOK, appData)
 }
 
+func SelectApplicationTheme(c echo.Context) error {
+	application := model.Application{}
+	if error := c.Bind(&application); error != nil {
+		return error
+	}
+	model.UpdateApplication(db, &application)
+	return c.JSON(http.StatusOK, application)
+}
+
 
 func ApplicationController(g *echo.Group, contextRoot string) {
 
@@ -72,6 +83,8 @@ func ApplicationController(g *echo.Group, contextRoot string) {
 	g.GET(contextRoot+"/applications/:id", FindApplication)
 	g.GET(contextRoot+"/applications", FindAllApplication)
 	g.GET(contextRoot+"/applications/info/:id", GetAppDataCount)
+	g.PUT(contextRoot+"/applications/theme", SelectApplicationTheme)
+
 
 }
 

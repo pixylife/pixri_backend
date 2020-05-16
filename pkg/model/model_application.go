@@ -11,7 +11,8 @@ type Application struct {
 	Purpose string  `gorm:"type:text;" json:"purpose"`
 	BaseURL string`json:"baseURL"`
 	Company string `json:"company"`
-
+	Theme   Theme `gorm:"foreignkey:theme_id" json:"theme"`
+	ThemeID int `json:"theme_id"`
 }
 
 type AgeGroup struct {
