@@ -12,6 +12,7 @@ type Application struct {
 	BaseURL string`json:"baseURL"`
 	Company string `json:"company"`
 	ThemeID int `json:"selected_theme"`
+	Theme *Theme `sql:"-" json:"theme"`
 }
 
 type AgeGroup struct {

@@ -82,7 +82,7 @@ func GenerateTheme(application model.Application) []model.Theme{
 func ThemeController(g *echo.Group, contextRoot string) {
 
 	g.POST(contextRoot+"/themes", CreateTheme)
-	g.PUT(contextRoot+"/themes", UpdateTheme)
+	g.PUT(contextRoot+"/themes/:id", UpdateTheme)
 	g.DELETE(contextRoot+"/themes/:id", DeleteTheme)
 	g.GET(contextRoot+"/themes/:id", FindTheme)
 	g.GET(contextRoot+"/themes", FindAllTheme)

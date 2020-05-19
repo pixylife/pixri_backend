@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"github.com/labstack/echo/v4"
@@ -30,19 +29,16 @@ func GenerateApplication(c echo.Context)  error{
 	var request = GenRequest{}
 	var entityRequest []GenEntity
 
-	fmt.Println("Start")
 
 	id, _ := strconv.Atoi(c.Param("id"))
 	application := model.FindApplication(db, id)
 	theme := model.FindTheme(db,application.ThemeID)
 
-	fmt.Println("Start A")
 
 
 	request.Application = *application
 	request.Theme = *theme
 
-	fmt.Println("Start B")
 
 
 
@@ -68,10 +64,8 @@ func GenerateApplication(c echo.Context)  error{
 	fmt.Println(resp.StatusCode())
 	fmt.Println(resp.String())
 
-	data := GenRequest{}
-	_ = json.Unmarshal([]byte(resp.String()), &data)
 
-	return c.JSON(http.StatusOK, data)
+	return c.JSON(http.StatusOK, resp.String())
 }
 
 

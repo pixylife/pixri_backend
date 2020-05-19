@@ -44,6 +44,14 @@ func FindAllEntity(db *gorm.DB) []*Entity {
 	return entity
 }
 
+func GetEntityCount(db *gorm.DB, application_id int) int{
+	var entity []*Entity
+	var count int
+	db.Where("application_id = ?", application_id).Find(&entity).Count(&count)
+	return count
+}
+
+
 func FindAllEntityByApplication(db *gorm.DB,application_id int) []*Entity {
 	var entity []*Entity
 	db.Where("application_id = ?", application_id).Find(&entity)

@@ -28,6 +28,7 @@ func UpdateApplication(c echo.Context) error {
 	if error := c.Bind(&application); error != nil {
 		return error
 	}
+
 	application.ThemeID = 0
 	model.UpdateApplication(db, &application)
 	themes := GenerateTheme(application)
@@ -49,6 +50,9 @@ func FindApplication(c echo.Context) error {
 
 	id, _ := strconv.Atoi(c.Param("id"))
 	application := model.FindApplication(db, id)
+	if application.ThemeID != 0 {
+		application.Theme = model.FindTheme(db, application.ThemeID)
+	}
 	return c.JSON(http.StatusOK, application)
 }
 func FindAllApplication(c echo.Context) error {
@@ -61,7 +65,8 @@ func GetAppDataCount(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	application := model.FindApplication(db, id)
 	themeCount := model.GetThemeCount(db,application.ID)
-	 appData := model.ApplicationData{ID: application.ID, ThemeCount: themeCount}
+	entityCount := model.GetEntityCount(db,application.ID)
+	 appData := model.ApplicationData{ID: application.ID, ThemeCount: themeCount,EntityCount:entityCount}
 	return c.JSON(http.StatusOK, appData)
 }
 
@@ -78,7 +83,7 @@ func SelectApplicationTheme(c echo.Context) error {
 func ApplicationController(g *echo.Group, contextRoot string) {
 
 	g.POST(contextRoot+"/applications", CreateApplication)
-	g.PUT(contextRoot+"/applications", UpdateApplication)
+	g.PUT(contextRoot+"/applications/:id", UpdateApplication)
 	g.DELETE(contextRoot+"/applications/:id", DeleteApplication)
 	g.GET(contextRoot+"/applications/:id", FindApplication)
 	g.GET(contextRoot+"/applications", FindAllApplication)

@@ -43,11 +43,19 @@ func FindAllField(c echo.Context) error {
 	field := model.FindAllField(db)
 	return c.JSON(http.StatusOK, field)
 }
+
+func FindAllFieldsByEntity(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	field := model.FindAllFieldsByEntity(db, id)
+	return c.JSON(http.StatusOK, field)
+}
+
 func FieldController(g *echo.Group, contextRoot string) {
 
 	g.POST(contextRoot+"/fields", CreateField)
-	g.PUT(contextRoot+"/fields", UpdateField)
+	g.PUT(contextRoot+"/fields/:id", UpdateField)
 	g.DELETE(contextRoot+"/fields/:id", DeleteField)
 	g.GET(contextRoot+"/fields/:id", FindField)
+	g.GET(contextRoot+"/fields/entity/:id", FindAllFieldsByEntity)
 	g.GET(contextRoot+"/fields", FindAllField)
 }
