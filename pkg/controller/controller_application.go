@@ -52,13 +52,24 @@ func FindApplication(c echo.Context) error {
 	application := model.FindApplication(db, id)
 	if application.ThemeID != 0 {
 		application.Theme = model.FindTheme(db, application.ThemeID)
+	}else{
+		application.Theme = model.GetDefaultTheme()
 	}
 	return c.JSON(http.StatusOK, application)
 }
 func FindAllApplication(c echo.Context) error {
-
+	var applicatioList []model.Application
 	application := model.FindAllApplication(db)
-	return c.JSON(http.StatusOK, application)
+	for _,app := range application{
+		if app.ThemeID != 0 {
+			app.Theme = model.FindTheme(db, app.ThemeID)
+		}else{
+			app.Theme = model.GetDefaultTheme()
+		}
+		applicatioList = append(applicatioList, *app)
+	}
+
+	return c.JSON(http.StatusOK, applicatioList)
 }
 
 func GetAppDataCount(c echo.Context) error {

@@ -58,3 +58,16 @@ func DeleteAllThemesByApplication(db *gorm.DB,application_id int) []*Theme {
 	db.Where("application_id = ?", application_id).Delete(&entity)
 	return entity
 }
+
+
+func GetDefaultTheme() *Theme{
+	var theme= Theme{}
+	theme.ID = 0
+	theme.PrimaryColor = "#008577"
+	theme.PrimaryDarkColor = "#00574b"
+	theme.SecondaryColor = "#d81b60"
+	theme.BodyColor = "#ffffff"
+	theme.TextColorAppBar = "#ffffff"
+	theme.TextColorBody = "#000000"
+	return &theme
+}
