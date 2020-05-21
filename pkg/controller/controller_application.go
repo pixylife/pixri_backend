@@ -30,6 +30,7 @@ func UpdateApplication(c echo.Context) error {
 	}
 
 	application.ThemeID = 0
+	application.GitHubUrl = ""
 	model.UpdateApplication(db, &application)
 	themes := GenerateTheme(application)
 	model.DeleteAllThemesByApplication(db,application.ID)
@@ -58,7 +59,7 @@ func FindApplication(c echo.Context) error {
 	return c.JSON(http.StatusOK, application)
 }
 func FindAllApplication(c echo.Context) error {
-	var applicatioList []model.Application
+	var applicationsList []model.Application
 	application := model.FindAllApplication(db)
 	for _,app := range application{
 		if app.ThemeID != 0 {
@@ -66,10 +67,10 @@ func FindAllApplication(c echo.Context) error {
 		}else{
 			app.Theme = model.GetDefaultTheme()
 		}
-		applicatioList = append(applicatioList, *app)
+		applicationsList = append(applicationsList, *app)
 	}
 
-	return c.JSON(http.StatusOK, applicatioList)
+	return c.JSON(http.StatusOK, applicationsList)
 }
 
 func GetAppDataCount(c echo.Context) error {
@@ -94,7 +95,7 @@ func SelectApplicationTheme(c echo.Context) error {
 func ApplicationController(g *echo.Group, contextRoot string) {
 
 	g.POST(contextRoot+"/applications", CreateApplication)
-	g.PUT(contextRoot+"/applications/:id", UpdateApplication)
+	g.PUT(contextRoot+"/applications", UpdateApplication)
 	g.DELETE(contextRoot+"/applications/:id", DeleteApplication)
 	g.GET(contextRoot+"/applications/:id", FindApplication)
 	g.GET(contextRoot+"/applications", FindAllApplication)

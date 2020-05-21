@@ -53,7 +53,7 @@ func FindAllFieldsByEntity(c echo.Context) error {
 func FieldController(g *echo.Group, contextRoot string) {
 
 	g.POST(contextRoot+"/fields", CreateField)
-	g.PUT(contextRoot+"/fields/:id", UpdateField)
+	g.PUT(contextRoot+"/fields", UpdateField)
 	g.DELETE(contextRoot+"/fields/:id", DeleteField)
 	g.GET(contextRoot+"/fields/:id", FindField)
 	g.GET(contextRoot+"/fields/entity/:id", FindAllFieldsByEntity)
